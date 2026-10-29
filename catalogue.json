@@ -1,0 +1,14 @@
+---
+layout: null
+---
+{%- assign allowed = ".pdf,.doc,.docx,.rtf,.txt" | split: "," -%}
+{"generatedAt":{{ site.time | date_to_xmlschema | jsonify }},"files":[
+{%- assign separator = "" -%}
+{%- for file in site.static_files -%}
+  {%- assign extension = file.extname | downcase -%}
+  {%- if allowed contains extension -%}
+    {{ separator }}{"path":{{ file.path | remove_first: "/" | jsonify }},"name":{{ file.name | jsonify }},"extension":{{ extension | remove_first: "." | jsonify }}}
+    {%- assign separator = "," -%}
+  {%- endif -%}
+{%- endfor -%}
+]}
